@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}    
+    <h1>Message Board</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post Message</button>
+    </form>
+
+    <h2>Messages:</h2>
+    <ul>
+        {% for message in messages %}
+            <li>{{ message.user.name }}: {{ message.text }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <form action="/" method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button>Submit</button>
+
+        <p>Don't have an account? Sign up <a href="signup">here!</a></p>
+    </form>
+
+    {% if admin %}
+        <p>Welcome Admin</p>
+        <meta http-equiv="refresh" content="2; url=/admin"/>
+    {% endif %}
+
+    {% if signup_success %}
+        <p>Sign Up Success</p>
+        <p>Logging In</p>
+        <meta http-equiv="refresh" content="2; url=/messages"/>
+    {% endif %}
+
+    {% if error %}
+    <p>invalid credentials</p>
+    {% endif %}
+{% endblock content %}
