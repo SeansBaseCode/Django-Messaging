@@ -1,0 +1,10 @@
+<form action="{% url 'delete_all_messages' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Delete All Messages</button>
+</form>
+
+<!-- Button to delete a specific message by ID -->
+<form action="{% url 'delete_message_by_id' message.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Delete Message with ID {{ message.id }}</button>
+</form>

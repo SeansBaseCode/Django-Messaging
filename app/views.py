@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from app.forms import *
 from app.models import *
@@ -14,7 +15,8 @@ def sign_in(request):
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user) 
+                login(request, user)
+                context['signup_success'] = True
                 return redirect('message_board')  
             else:
                 context["error"] = "Invalid credentials"
@@ -62,5 +64,16 @@ def message_board(request):
 
 
 def admin_access(request):
-    # python manage.py flush for deleting all data in database
     pass
+def delete_all_messages(request):
+    if request.method == 'POST':
+        Message.objects.all().delete()
+        return HttpResponse("All messages have been deleted successfully.")
+    return HttpResponse("Invalid request method.", status=400)
+
+def delete_message_by_id(request, message_id):
+    if request.method == 'POST':
+        message = get_object_or_404(Message, id=message_id)
+        message.delete()
+        return HttpResponse(f"The message has been deleted successfully.")
+    return HttpResponse("Invalid request method.", status=400)
