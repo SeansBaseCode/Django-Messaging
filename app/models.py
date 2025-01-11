@@ -1,9 +1,6 @@
 from django.db import models
 
-class User(models.Model):
-    name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
-    password = models.CharField(max_length=50)
+from django.contrib.auth.models import User
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

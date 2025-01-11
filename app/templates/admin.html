@@ -1,10 +1,44 @@
-<form action="{% url 'delete_all_messages' %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Delete All Messages</button>
-</form>
+{% extends "base.html" %}
+{% block content %}    
+    <h1>Message Board</h1>
+    <h3>Welcome {{user.username}}</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post Message</button>
+    </form>
 
-<!-- Button to delete a specific message by ID -->
-<form action="{% url 'delete_message_by_id' message.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Delete Message with ID {{ message.id }}</button>
-</form>
+    <h2>Messages:</h2>
+    <ul>
+        {% for message in messages %}
+            <li>{{ message.id }}: {{ message.user.username }}: {{ message.text }}</li>
+            <form method="POST" action="{% url 'delete' message.id %}"  onsubmit="return confirmDelete();">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this message?");
+        }
+    </script>
+
+    <form method="POST" action="{% url 'delete_all' %}" id="delete-all-form">
+        {% csrf_token %}
+        <button type="button" onclick="confirmDeletion()">Delete All Messages</button>
+    </form>
+
+
+    <script type="text/javascript">
+        function confirmDeletion() {
+            const confirmation = window.confirm("Delete All Messages?");
+            if (confirmation) {
+                document.getElementById("delete-all-form").submit();
+            }
+        }
+    </script>
+
+    <a href="login">Logout</a>
+{% endblock content %}

@@ -2,9 +2,8 @@
 {% block content %}
     <form action="/" method="POST">
         {% csrf_token %}
-
-        {{ form.as_p }}
-
+        <input type="text" name="username" />
+        <input type="password" name="password" />
         <button>Submit</button>
 
         <p>Don't have an account? Sign up <a href="signup">here!</a></p>
@@ -22,6 +21,6 @@
     {% endif %}
 
     {% if error %}
-    <p>invalid credentials</p>
+    <p>Invalid credentials</p>
     {% endif %}
 {% endblock content %}

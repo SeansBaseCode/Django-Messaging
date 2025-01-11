@@ -25,6 +25,8 @@ urlpatterns = [
     path("signup", sign_up, name="signup"),
     path("login/signup", sign_up, name="signup"),
     path("messages", message_board, name="messages"),
-    path("admin", admin_access, name="admin"),
+    path("delete_message/<int:message_id>", delete, name="delete" ),
+    path("delete_all", delete_all_messages, name="delete_all"),
+    path("access", admin_access, name="access"),
     path("admin/", admin.site.urls),
 ]
